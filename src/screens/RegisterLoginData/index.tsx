@@ -49,7 +49,6 @@ export function RegisterLoginData() {
 
     const dataKey = '@savepass:logins';
 
-    // Save data on AsyncStorage and navigate to 'Home' screen
     const response = await AsyncStorage.getItem(dataKey); 
     const currentData = response ? JSON.parse(response) : [];
     const formattedData = [
@@ -86,7 +85,6 @@ export function RegisterLoginData() {
             title="E-mail"
             name="email"
             error={
-              // Replace here with real content
               errors.email && errors.email.message 
             }
             control={control}
@@ -99,7 +97,6 @@ export function RegisterLoginData() {
             title="Senha"
             name="password"
             error={
-              // Replace here with real content
               errors.password && errors.password.message 
             }
             control={control}
