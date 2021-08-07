@@ -42,7 +42,9 @@ export function Home() {
   function handleFilterLoginData() {
     if (searchText !== '') {
       const result = data.filter(item => {
-        if (item.service_name.includes(searchText)) {
+        if (item.service_name
+          .toLowerCase()
+          .includes(searchText.toLowerCase())) {
           return item;
         }
       })
