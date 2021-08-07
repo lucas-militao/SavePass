@@ -51,10 +51,11 @@ export function Home() {
   }
 
   function handleChangeInputText(text: string) {
-    if (text !== '') {
-      setSearchText(text);
+    setSearchText(text);
+
+    if (text === '') {
+      setSearchListData(data);
     }
-    setSearchListData(data);
   }
 
   useFocusEffect(useCallback(() => {
