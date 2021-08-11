@@ -24,6 +24,18 @@ export const Metadata = styled.View`
   align-items: center;
 `;
 
+export const TotalPassAndEditButtonContainer = styled.View``;
+
+export const EditButton = styled.TouchableOpacity`
+  align-items: flex-end;
+`;
+
+export const EditButtonText = styled.Text`
+  color: #508bfc;
+  font-family: 'Rubik_500Medium'
+`;
+
+
 export const Title = styled.Text`
   font-size: ${RFValue(20)}px;
   font-family: 'Rubik_500Medium';

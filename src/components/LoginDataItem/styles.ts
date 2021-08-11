@@ -9,6 +9,7 @@ export const Container = styled(LinearGradient).attrs({
   border: 1px #e3e4e5;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   min-height: ${RFValue(80)}px;
   width: 100%;
   border-radius: 4px;
@@ -57,4 +58,17 @@ export const Email = styled.Text`
   font-family: 'Rubik_400Regular';
   font-size: ${RFValue(13)}px;
   color: #888D97;
+`;
+
+export const LoginDataInfoContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const DeleteIconButton = styled.TouchableOpacity``;
+
+export const DeleteIcon = styled(Feather).attrs({
+  size: 24
+})`
+  opacity: 0.6;
 `;

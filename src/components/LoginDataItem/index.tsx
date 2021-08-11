@@ -10,18 +10,28 @@ import {
   LoginData,
   BoldTitle,
   Email,
+  LoginDataInfoContainer,
+  DeleteIconButton,
+  DeleteIcon,
 } from './styles';
 
-interface Props {
+interface LoginDataItemProps {
+  id: string;
   service_name: string;
   email: string;
   password: string;
 }
 
+interface Props {
+  data: LoginDataItemProps;
+  deleteItem: (id: string) => void;
+  editing: boolean;
+}
+
 export function LoginDataItem({
-  service_name,
-  email,
-  password
+  data,
+  deleteItem,
+  editing
 }: Props) {
   const [passIsVisible, setPassIsVisible] = useState(false);
 
@@ -38,27 +48,39 @@ export function LoginDataItem({
         '#ffffff'
       ]}
     >
-      <ShowPasswordButton
-        onPress={handleTogglePassIsVisible}
-      >
-        <Icon
-          name={passIsVisible ? "eye" : "eye-off"}
-          color={passIsVisible ? '#1967FB' : '#888D97'}
-        />
-      </ShowPasswordButton>
+      <LoginDataInfoContainer>
+        <ShowPasswordButton
+          onPress={handleTogglePassIsVisible}
+        >
+          <Icon
+            name={passIsVisible ? "eye" : "eye-off"}
+            color={passIsVisible ? '#1967FB' : '#888D97'}
+          />
+        </ShowPasswordButton>
 
-      {passIsVisible
-        ? (
-          <PassData>
-            <Title>{service_name}</Title>
-            <Password>{password}</Password>
-          </PassData>
-        )
-        : (
-          <LoginData>
-            <BoldTitle>{service_name}</BoldTitle>
-            <Email>{email}</Email>
-          </LoginData>
+        {passIsVisible
+          ? (
+            <PassData>
+              <Title>{data.service_name}</Title>
+              <Password>{data.password}</Password>
+            </PassData>
+          )
+          : (
+            <LoginData>
+              <BoldTitle>{data.service_name}</BoldTitle>
+              <Email>{data.email}</Email>
+            </LoginData>
+          )
+        }
+      </LoginDataInfoContainer>
+      
+      {
+        editing && (
+          <DeleteIconButton onPress={() => {deleteItem(data.id)}}>
+            <DeleteIcon
+              name="x"
+            />
+          </DeleteIconButton>
         )
       }
     </Container>

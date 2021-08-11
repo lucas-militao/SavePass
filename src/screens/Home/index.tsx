@@ -9,6 +9,9 @@ import { LoginDataItem } from '../../components/LoginDataItem';
 import {
   Container,
   Metadata,
+  TotalPassAndEditButtonContainer,
+  EditButton,
+  EditButtonText,
   Title,
   TotalPassCount,
   LoginList,
@@ -27,6 +30,7 @@ export function Home() {
   const [searchText, setSearchText] = useState('');
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
+  const [editing, setEditing] = useState(false);
 
   async function loadData() {
     const dataKey = '@savepass:logins';
@@ -60,6 +64,14 @@ export function Home() {
     }
   }
 
+  function handleEditingList() {
+    setEditing(!editing);
+  }
+
+  function handleDeleteItem(id: string) {
+    
+  }
+
   useFocusEffect(useCallback(() => {
     loadData();
   }, []));
@@ -85,22 +97,36 @@ export function Home() {
 
         <Metadata>
           <Title>Suas senhas</Title>
-          <TotalPassCount>
-            {searchListData.length
-              ? `${`${searchListData.length}`.padStart(2, '0')} ao total`
-              : 'Nada a ser exibido'
-            }
-          </TotalPassCount>
+
+          <TotalPassAndEditButtonContainer>
+            <TotalPassCount>
+              {searchListData.length
+                ? `${`${searchListData.length}`.padStart(2, '0')} ao total`
+                : 'Nada a ser exibido'
+              }
+            </TotalPassCount>
+
+            <EditButton onPress={handleEditingList}>
+              <EditButtonText>Editar</EditButtonText>
+            </EditButton>
+          </TotalPassAndEditButtonContainer>
         </Metadata>
+
+        
 
         <LoginList
           keyExtractor={(item) => item.id}
           data={searchListData}
           renderItem={({ item: loginData }) => {
             return <LoginDataItem
-              service_name={loginData.service_name}
-              email={loginData.email}
-              password={loginData.password}
+              data={{
+                id: loginData.id,
+                service_name: loginData.service_name,
+                email: loginData.email,
+                password: loginData.password,
+              }}
+              deleteItem={handleDeleteItem}
+              editing={editing}
             />
           }}
         />
