@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import Feather from '@expo/vector-icons/Feather';
 import { TextInput } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import theme from '../../global/styles/theme';
 
 
 export const Container = styled.View`
@@ -13,21 +14,21 @@ export const Container = styled.View`
 
 export const Input = styled(TextInput)`
   font-size: ${(RFValue(15))}px;
-  color: #3D434D;
-  font-family: 'Rubik_400Regular';
+  color: ${({ theme }) => theme.colors.title};
+  font-family: ${({ theme }) => theme.fonts.regular};
   font-size: 15px;
   flex: 1;
   padding: 0 20px;
-  background: #ffffff;
+  background: ${({ theme }) => theme.colors.primary_light};
   
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-  border: 1px #e3e4e5;
+  border: 1px ${({ theme }) => theme.colors.shape};
   border-right-width: 0;
 `;
 
 export const Button = styled.Pressable`
-  background: #FFCC00;
+  background: ${({ theme }) => theme.colors.success};
   padding: 16px;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
@@ -36,6 +37,6 @@ export const Button = styled.Pressable`
 
 export const Icon = styled(Feather).attrs({
   size: 24,
-  color: '#3D434D'
+  color: theme.colors.title,
 })``;
 

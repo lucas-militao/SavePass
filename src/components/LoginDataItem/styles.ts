@@ -32,15 +32,15 @@ export const PassData = styled.View`
 
 export const Title = styled.Text`
   margin-bottom: ${RFValue(4)}px;
-  font-family: 'Rubik_400Regular';
+  font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(13)}px;
-  color: #888D97;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const Password = styled.Text`
-  font-family: 'Rubik_500Medium';
+  font-family: ${({ theme }) => theme.fonts.medium};
   font-size: ${RFValue(15)}px;
-  color: #1967FB;
+  color: ${({ theme }) => theme.colors.text_bold};
 `;
 
 export const LoginData = styled.View`
@@ -49,15 +49,15 @@ export const LoginData = styled.View`
 
 export const BoldTitle = styled.Text`
   margin-bottom: ${RFValue(4)}px;
-  font-family: 'Rubik_500Medium';
+  font-family: ${({ theme }) => theme.fonts.medium};
   font-size: ${RFValue(15)}px;
-  color: #3D434D;
+  color: ${({ theme }) => theme.colors.title};
 `;
 
 export const Email = styled.Text`
-  font-family: 'Rubik_400Regular';
+  font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(13)}px;
-  color: #888D97;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const LoginDataInfoContainer = styled.View`
