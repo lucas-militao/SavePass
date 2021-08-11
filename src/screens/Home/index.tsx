@@ -16,6 +16,7 @@ import {
   TotalPassCount,
   LoginList,
 } from './styles';
+import { Alert } from 'react-native';
 
 interface LoginDataProps {
   id: string;
@@ -32,8 +33,10 @@ export function Home() {
   const [data, setData] = useState<LoginListDataProps>([]);
   const [editing, setEditing] = useState(false);
 
+  const dataKey = '@savepass:logins';
+
   async function loadData() {
-    const dataKey = '@savepass:logins';
+    
     const response = await AsyncStorage.getItem(dataKey);
 
     if (response) {
@@ -69,7 +72,31 @@ export function Home() {
   }
 
   function handleDeleteItem(id: string) {
-    
+    Alert.alert("Deletando Item", 
+      "Tem certeza que deseja deletar este item",
+      [
+        {
+          text:"Confirmar",
+          onPress: () => deleteItem(id),
+          style: 'destructive'
+        },
+        {
+          text:"Cancel",
+          style: 'cancel'
+        }
+      ])
+  }
+
+  async function deleteItem(id: string) {
+    const dataFormatted = data.filter(item => {
+      if (item.id !== id) {
+        return item;
+      }
+    })
+
+    setData(dataFormatted);
+    setSearchListData(dataFormatted);
+    await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
   }
 
   useFocusEffect(useCallback(() => {
@@ -106,9 +133,13 @@ export function Home() {
               }
             </TotalPassCount>
 
-            <EditButton onPress={handleEditingList}>
-              <EditButtonText>Editar</EditButtonText>
-            </EditButton>
+            {
+              searchListData.length > 0 &&
+              <EditButton onPress={handleEditingList}> 
+                <EditButtonText>Editar</EditButtonText>
+              </EditButton>
+            }
+
           </TotalPassAndEditButtonContainer>
         </Metadata>
 
