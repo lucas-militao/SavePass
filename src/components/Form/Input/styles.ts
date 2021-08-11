@@ -10,14 +10,14 @@ export const Container = styled.View`
 export const Label = styled.Text`
   font-family: 'Rubik_400Regular';
   font-size: ${RFValue(15)}px;
-  color: #888D97;
+  color: ${({ theme }) => theme.colors.text};
   margin-bottom: 7px;
 `;
 
 export const Error = styled.Text`
-  color: #E83F5B;
+  color: ${({ theme }) => theme.colors.error};
   margin-bottom: 4px;
-  font-family: 'Rubik_300Light';
+  font-family: ${({ theme }) => theme.fonts.light};
   font-size: ${RFValue(13)}px;
 `;
 

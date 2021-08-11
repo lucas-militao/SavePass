@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import AppLoading from 'expo-app-loading';
+import { ThemeProvider } from 'styled-components/native';
 import {
   useFonts,
   Rubik_300Light,
@@ -10,6 +11,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 
 import { AppRoutes } from './src/routes/app.routes';
+import theme from './src/global/styles/theme';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,12 +26,14 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
-      <AppRoutes />
+      <ThemeProvider theme={theme}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        <AppRoutes />
+      </ThemeProvider>
     </NavigationContainer>
   );
 }
