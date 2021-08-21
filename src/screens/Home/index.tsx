@@ -1,167 +1,93 @@
-import React, { useState, useCallback } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
-
-import { Header } from '../../components/Header';
-import { SearchBar } from '../../components/SearchBar';
-import { LoginDataItem } from '../../components/LoginDataItem';
+import { yupResolver } from "@hookform/resolvers/yup";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Input } from "../../components/Form/Input";
+import * as Yup from "yup";
+import GoogleIconSvg from '../../assets/google-icon.svg'
 
 import {
   Container,
-  Metadata,
-  TotalPassAndEditButtonContainer,
-  EditButton,
-  EditButtonText,
+  Form,
+  RegisterButtonContainer,
   Title,
-  TotalPassCount,
-  LoginList,
+  SocialLoginButtonContainer
 } from './styles';
-import { Alert } from 'react-native';
+import { Button } from "../../components/Form/Button";
+import { ButtonSocialLogin } from "../../components/Form/ButtonSocialLogin";
+import { useAuth } from "../../hooks/auth";
+import { Alert } from "react-native";
 
-interface LoginDataProps {
-  id: string;
-  service_name: string;
+const schema = Yup.object().shape({
+  email: Yup.string().email().required("Email obrigatório!"),
+  password: Yup.string().required("Senha obrigatória")
+});
+
+interface FormData {
   email: string;
   password: string;
 }
 
-type LoginListDataProps = LoginDataProps[];
-
 export function Home() {
-  const [searchText, setSearchText] = useState('');
-  const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
-  const [data, setData] = useState<LoginListDataProps>([]);
-  const [editing, setEditing] = useState(false);
+  const {
+    control,
+    handleSubmit,
+    formState: {
+      errors
+    }
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
 
-  const dataKey = '@savepass:logins';
+  const { signInWithGoogle } = useAuth();
 
-  async function loadData() {
-    
-    const response = await AsyncStorage.getItem(dataKey);
+  function handleLogin(formData: FormData) {
+    console.log(formData);
+  }
 
-    if (response) {
-      const currentData = JSON.parse(response);
-      setData(currentData);
-      setSearchListData(currentData);
+  async function handleSignInWithGoogle() {
+    try {
+      signInWithGoogle();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Não foi possível realizar o login pelo Google");
     }
   }
 
-  function handleFilterLoginData() {
-    if (searchText !== '') {
-      const result = data.filter(item => {
-        if (item.service_name
-          .toLowerCase()
-          .includes(searchText.toLowerCase())) {
-          return item;
-        }
-      })
-      setSearchListData(result);
-    }
-  }
-
-  function handleChangeInputText(text: string) {
-    setSearchText(text);
-
-    if (text === '') {
-      setSearchListData(data);
-    }
-  }
-
-  function handleEditingList() {
-    setEditing(!editing);
-  }
-
-  function handleDeleteItem(id: string) {
-    Alert.alert("Deletando Item", 
-      "Tem certeza que deseja deletar este item",
-      [
-        {
-          text:"Confirmar",
-          onPress: () => deleteItem(id),
-          style: 'destructive'
-        },
-        {
-          text:"Cancel",
-          style: 'cancel'
-        }
-      ])
-  }
-
-  async function deleteItem(id: string) {
-    const dataFormatted = data.filter(item => {
-      if (item.id !== id) {
-        return item;
-      }
-    })
-
-    setData(dataFormatted);
-    setSearchListData(dataFormatted);
-    await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
-  }
-
-  useFocusEffect(useCallback(() => {
-    loadData();
-  }, []));
-
-  return (
-    <>
-      <Header
-        user={{
-          name: 'Rocketseat',
-          avatar_url: 'https://i.ibb.co/ZmFHZDM/rocketseat.jpg'
-        }}
-      />
-      <Container>
-        <SearchBar
-          placeholder="Qual senha você procura?"
-          onChangeText={handleChangeInputText}
-          value={searchText}
-          returnKeyType="search"
-          onSubmitEditing={handleFilterLoginData}
-
-          onSearchButtonPress={handleFilterLoginData}
+  return(
+    <Container>
+      <Form>
+        <Input 
+          title="E-mail"
+          name="email"
+          control={control}
+          error={errors.email && errors.email.message}
         />
 
-        <Metadata>
-          <Title>Suas senhas</Title>
-
-          <TotalPassAndEditButtonContainer>
-            <TotalPassCount>
-              {searchListData.length
-                ? `${`${searchListData.length}`.padStart(2, '0')} ao total`
-                : 'Nada a ser exibido'
-              }
-            </TotalPassCount>
-
-            {
-              searchListData.length > 0 &&
-              <EditButton onPress={handleEditingList}> 
-                <EditButtonText>Editar</EditButtonText>
-              </EditButton>
-            }
-
-          </TotalPassAndEditButtonContainer>
-        </Metadata>
-
-        
-
-        <LoginList
-          keyExtractor={(item) => item.id}
-          data={searchListData}
-          renderItem={({ item: loginData }) => {
-            return <LoginDataItem
-              data={{
-                id: loginData.id,
-                service_name: loginData.service_name,
-                email: loginData.email,
-                password: loginData.password,
-              }}
-              deleteItem={handleDeleteItem}
-              editing={editing}
-            />
-          }}
+        <Input 
+          title="Password"
+          name="password"
+          control={control}
+          error={errors.password && errors.password.message}
+          secureTextEntry
         />
-      </Container>
-    </>
+
+        <Button
+          title="Login"
+          onPress={handleSubmit(handleLogin)}
+        />
+      </Form>
+
+      {/* <RegisterButtonContainer>
+        <Title>Não possui conta?</Title>
+      </RegisterButtonContainer> */}
+
+      <SocialLoginButtonContainer>
+        <ButtonSocialLogin
+          title="Entrar com Google"
+          svg={GoogleIconSvg}
+          onPress={signInWithGoogle}
+        />
+      </SocialLoginButtonContainer>
+    </Container>
   )
 }

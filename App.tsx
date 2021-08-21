@@ -12,6 +12,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { AppRoutes } from './src/routes/app.routes';
 import theme from './src/global/styles/theme';
+import { AuthProvider } from './src/hooks/auth';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -32,7 +33,9 @@ export default function App() {
           backgroundColor="transparent"
           translucent
         />
-        <AppRoutes />
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
       </ThemeProvider>
     </NavigationContainer>
   );

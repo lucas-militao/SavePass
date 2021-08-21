@@ -1,7 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Home } from '../screens/Home';
+import { Dashboard } from '../screens/Dashboard';
 import { RegisterLoginData } from '../screens/RegisterLoginData';
+import { Home } from '../screens/Home';
 
 const {
   Navigator,
@@ -16,6 +17,7 @@ export function AppRoutes() {
       }}
     >
       <Screen name="Home" component={Home} />
+      <Screen name="Dashboard" component={Dashboard} />
       <Screen name="RegisterLoginData" component={RegisterLoginData} />
     </Navigator>
   );

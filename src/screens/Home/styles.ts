@@ -1,58 +1,35 @@
-import styled from 'styled-components/native';
-import { FlatList } from 'react-native';
+import { BorderlessButton } from "react-native-gesture-handler";
 
-import { RFValue } from 'react-native-responsive-fontsize';
-
-interface LoginListDataProps {
-  id: string;
-  service_name: string;
-  email: string;
-  password: string;
-}
+import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${({ theme }) => theme.colors.primary};
-  padding: 0 24px;
+
+  justify-content: center;
+  padding: 16px;
+
+  background-color: ${({ theme }) => theme.colors.secondary};
 `;
 
-export const Metadata = styled.View`
-  margin-top: 32px;
-  flex-direction: row;
+export const Form = styled.View`
 
-  justify-content: space-between;
+  align-content: center;
+
+  width: 100%;
+
+  margin-bottom: 64px;
+`;
+
+export const RegisterButtonContainer = styled(BorderlessButton)`
   align-items: center;
+
+  margin: 16px 0;
 `;
-
-export const TotalPassAndEditButtonContainer = styled.View``;
-
-export const EditButton = styled.TouchableOpacity`
-  align-items: flex-end;
-`;
-
-export const EditButtonText = styled.Text`
-  color: ${({ theme }) => theme.colors.secondary};
-  font-family: 'Rubik_500Medium'
-`;
-
 
 export const Title = styled.Text`
-  font-size: ${RFValue(20)}px;
-  font-family: ${({ theme }) => theme.fonts.medium};;
-  color: #3D434D;
+  
+  
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
-export const TotalPassCount = styled.Text`
-  font-size: ${RFValue(13)}px;
-  font-family: ${({ theme }) => theme.fonts.regular};
-  color: #888D97;
-`;
-
-
-export const LoginList = styled(
-  FlatList as new () => FlatList<LoginListDataProps>
-).attrs({
-  showsVerticalScrollIndicator: false,
-})`
-  margin-top: ${RFValue(16)}px;
-`;
+export const SocialLoginButtonContainer = styled.View``;

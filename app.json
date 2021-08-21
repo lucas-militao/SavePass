@@ -2,6 +2,7 @@
   "expo": {
     "name": "savepass",
     "slug": "savepass",
+    "scheme": "savepass",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
@@ -17,7 +18,10 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#E5E5E5"
       }
-    }
+    },
+    "plugins": [
+      "expo-splash-screen"
+    ]
   },
   "name": "savepass"
 }

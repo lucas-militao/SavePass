@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
 
-import { Home } from '../../screens/Home';
+import { Dashboard } from '../../screens/Dashboard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 jest.mock('@react-navigation/native', () => ({
@@ -35,7 +35,7 @@ describe('Home', () => {
       )
 
     const { findByText, getByText } = render(
-      <Home />
+      <Dashboard />
     );
 
     expect(await findByText('johndoe@example.com')).toBeTruthy()
@@ -71,7 +71,7 @@ describe('Home', () => {
       findByText,
       queryByText,
     } = render(
-      <Home />
+      <Dashboard />
     );
 
     // Ensures first render is complete (act)
