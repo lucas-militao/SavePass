@@ -1,24 +1,26 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Dashboard } from '../screens/Dashboard';
-import { RegisterLoginData } from '../screens/RegisterLoginData';
-import { Home } from '../screens/Home';
+import React from "react";
 
-const {
-  Navigator,
-  Screen
-} = createStackNavigator();
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Home } from "../screens/Home";
+import { View } from "react-native";
+
+
+const { Navigator, Screen } = createBottomTabNavigator();
 
 export function AppRoutes() {
-  return (
-    <Navigator
-      screenOptions={{
-        headerShown: false
-      }}
-    >
+
+  return(
+    <Navigator>
+
+      {/* <Screen
+        name="Listagem"
+        component={Dashboard}
+      /> */}
+      {/* <Screen
+        name="Cadastrar"
+        component={RegisterLoginData}
+      /> */}
       <Screen name="Home" component={Home} />
-      <Screen name="Dashboard" component={Dashboard} />
-      <Screen name="RegisterLoginData" component={RegisterLoginData} />
     </Navigator>
   );
 }

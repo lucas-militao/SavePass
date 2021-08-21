@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
@@ -9,6 +9,7 @@ import {
 } from "react";
 
 import * as AuthSession from 'expo-auth-session';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface User {
   id: string;
@@ -39,6 +40,8 @@ function AuthProvider({
 }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
 
+  const dataKey = '@savepass:user';
+
   async function signInWithGoogle() {
 
     try {
@@ -64,6 +67,19 @@ function AuthProvider({
     }
 
   }
+
+  useEffect(() => {
+    async function loadUserData() {
+      const userStorage = await AsyncStorage.getItem(dataKey);
+
+      if (userStorage) {
+        const userLogged = JSON.parse(userStorage);
+        setUser(userLogged);
+      }
+    }
+
+    loadUserData();
+  }, [])
 
   return (
     <AuthContext.Provider value={{ 
