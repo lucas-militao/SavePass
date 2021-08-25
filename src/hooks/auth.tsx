@@ -33,6 +33,7 @@ interface AuthProviderProps {
 interface IAuthContextData {
   user: User;
   signInWithGoogle: () => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext({} as IAuthContextData)
@@ -66,9 +67,14 @@ function AuthProvider({
       }
       
     } catch (error) {
-      console.log("ERRO AQUI OHHHHHHHHHHHHHHHHHHHHHHHH: "+ error);
+      console.log(error);
     }
 
+  }
+
+  async function signOut() {
+    setUser({} as User);
+    await AsyncStorage.removeItem(dataKey);
   }
 
   useEffect(() => {
@@ -87,7 +93,8 @@ function AuthProvider({
   return (
     <AuthContext.Provider value={{
       user,
-      signInWithGoogle
+      signInWithGoogle,
+      signOut
     }}>
       {children}
     </AuthContext.Provider>

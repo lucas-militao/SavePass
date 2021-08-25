@@ -55,7 +55,7 @@ export function Home() {
 
   return(
     <Container>
-      <Form>
+      {/* <Form>
         <Input 
           title="E-mail"
           name="email"
@@ -75,7 +75,7 @@ export function Home() {
           title="Login"
           onPress={handleSubmit(handleLogin)}
         />
-      </Form>
+      </Form> */}
 
       {/* <RegisterButtonContainer>
         <Title>Não possui conta?</Title>

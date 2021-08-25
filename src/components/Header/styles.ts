@@ -57,7 +57,7 @@ export const SecondaryMessage = styled.Text`
 export const AddButton = styled.Pressable`
   padding: ${RFValue(14.5)}px;
   border: 1.5px ${({ theme }) => theme.colors.secondary};
-  border-radius: 4px;
+  border-radius: 28px;
 `;
 
 export const Icon = styled(Feather)``;

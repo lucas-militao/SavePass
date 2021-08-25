@@ -17,6 +17,7 @@ import {
   LoginList,
 } from './styles';
 import { Alert } from 'react-native';
+import { useAuth } from '../../hooks/auth';
 
 interface LoginDataProps {
   id: string;
@@ -32,6 +33,8 @@ export function Dashboard() {
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
   const [editing, setEditing] = useState(false);
+
+  const { signOut } = useAuth();
 
   const dataKey = '@savepass:logins';
 
@@ -99,6 +102,26 @@ export function Dashboard() {
     await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
   }
 
+  async function handleSignOut() {
+    Alert.alert(
+      "Sign Out",
+      "Deseja encerrar a sessão?",
+      [
+        {
+          text:"Sim",
+          onPress: signOut,
+          style: "default"
+        },
+        {
+          text:"Não",
+          style: "cancel"
+        },
+        
+      ]
+    );
+    
+  }
+
   useFocusEffect(useCallback(() => {
     loadData();
   }, []));
@@ -110,6 +133,7 @@ export function Dashboard() {
           name: 'Rocketseat',
           avatar_url: 'https://i.ibb.co/ZmFHZDM/rocketseat.jpg'
         }}
+        handleSignOut={handleSignOut}
       />
       <Container>
         <SearchBar

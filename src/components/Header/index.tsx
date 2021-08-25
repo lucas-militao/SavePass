@@ -20,15 +20,16 @@ interface HeaderProps {
   user?: {
     name: string;
     avatar_url: string;
-  }
+  },
+  handleSignOut: () => Promise<void>
 }
 
-export function Header({ user }: HeaderProps) {
-  const { navigate, goBack } = useNavigation();
+export function Header({ 
+  user,
+  handleSignOut 
+}: HeaderProps) {
+  const { goBack } = useNavigation();
 
-  function handleAddPass() {
-    navigate('RegisterLoginData');
-  }
 
   return (
     <Container
@@ -59,9 +60,9 @@ export function Header({ user }: HeaderProps) {
             </TextContainer>
           </AboutUser>
 
-          <AddButton onPress={handleAddPass}>
+          <AddButton onPress={handleSignOut}>
             <Icon
-              name="plus"
+              name="power"
               color="#FFFFFF"
               size={24}
             />
