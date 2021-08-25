@@ -46,7 +46,7 @@ export function Home() {
 
   async function handleSignInWithGoogle() {
     try {
-      signInWithGoogle();
+      return await signInWithGoogle();
     } catch (error) {
       console.log(error);
       Alert.alert("Não foi possível realizar o login pelo Google");
@@ -85,7 +85,7 @@ export function Home() {
         <ButtonSocialLogin
           title="Entrar com Google"
           svg={GoogleIconSvg}
-          onPress={signInWithGoogle}
+          onPress={handleSignInWithGoogle}
         />
       </SocialLoginButtonContainer>
     </Container>

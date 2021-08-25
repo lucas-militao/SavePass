@@ -1,9 +1,8 @@
 import React from "react";
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Home } from "../screens/Home";
-import { View } from "react-native";
-
+import { Dashboard } from "../screens/Dashboard";
+import { RegisterLoginData } from "../screens/RegisterLoginData";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -11,16 +10,14 @@ export function AppRoutes() {
 
   return(
     <Navigator>
-
-      {/* <Screen
-        name="Listagem"
+      <Screen
+        name="Principal"
         component={Dashboard}
-      /> */}
-      {/* <Screen
-        name="Cadastrar"
+      />
+      <Screen
+        name="Registrar"
         component={RegisterLoginData}
-      /> */}
-      <Screen name="Home" component={Home} />
+      />
     </Navigator>
-  );
+  )
 }

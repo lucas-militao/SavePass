@@ -10,6 +10,7 @@ import {
 
 import * as AuthSession from 'expo-auth-session';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 interface User {
   id: string;
@@ -30,6 +31,7 @@ interface AuthProviderProps {
 }
 
 interface IAuthContextData {
+  user: User;
   signInWithGoogle: () => Promise<void>;
 }
 
@@ -82,7 +84,8 @@ function AuthProvider({
   }, [])
 
   return (
-    <AuthContext.Provider value={{ 
+    <AuthContext.Provider value={{
+      user,
       signInWithGoogle
     }}>
       {children}
