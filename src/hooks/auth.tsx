@@ -62,6 +62,7 @@ function AuthProvider({
         const userLogged: User = userInfo;
 
         setUser(userLogged);
+        await AsyncStorage.setItem(dataKey, JSON.stringify(userLogged));
       }
       
     } catch (error) {
