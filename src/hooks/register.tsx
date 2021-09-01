@@ -7,14 +7,16 @@ interface RegisterProviderProps {
 }
 
 interface RegisterProps {
+  id: string;
   service_name: string;
   email: string;
   password: string;
 }
 
 interface IRegisterContextData {
-  addRegister: (newRegister: RegisterProps) => Promise<void>
-  getRegisters: () => Promise<RegisterProps[]>
+  addRegister: (newRegister: RegisterProps, userId: string) => Promise<void>
+  getRegisters: (userId: string) => Promise<RegisterProps[]>
+  deleteRegister: (userId: string, idRegister: string) => Promise<RegisterProps[]>
 }
  
 const RegisterContext = createContext({} as IRegisterContextData);
@@ -22,10 +24,12 @@ const RegisterContext = createContext({} as IRegisterContextData);
 function RegisterProvider({
   children
 }: RegisterProviderProps) {
-  const dataKey = '@savepass:logins'; 
+  const dataKey = `@savepass:logins`; 
 
-  async function addRegister(newRegister: RegisterProps) {
-    const data = await AsyncStorage.getItem(dataKey);
+  async function addRegister(newRegister: RegisterProps, userId: string) {
+    const dataKeyUser = dataKey + `:${userId}`;
+
+    const data = await AsyncStorage.getItem(dataKeyUser);
     const currentData = data ? JSON.parse(data) : [];
     const newData = {
       id: String(uuid.v4()),
@@ -37,21 +41,41 @@ function RegisterProvider({
       newData
     ];
 
-    await AsyncStorage.setItem(dataKey, JSON.stringify(updatedData));
+    await AsyncStorage.setItem(dataKeyUser, JSON.stringify(updatedData));
   }
 
-  async function getRegisters(){
-    const data = await AsyncStorage.getItem(dataKey);
-    const currentData = JSON.parse(data);
+  async function getRegisters(userId: string) {
+    const dataKeyUser = dataKey + `:${userId}`;
+    const data = await AsyncStorage.getItem(dataKeyUser);
+    const currentData = data!! ? JSON.parse(data) : [];
     
+    console.log(currentData);
+
     return currentData;
+  }
+
+  async function deleteRegister(userId: string, idRegister: string) {
+    const dataKeyUser = dataKey + `:${userId}`;
+    const data = await AsyncStorage.getItem(dataKeyUser);
+    const currentData = JSON.parse(data);
+
+    const formattedData = currentData.filter(item => {
+      if (item.id !== idRegister) {
+        return item;
+      }
+    });
+
+    await AsyncStorage.setItem(dataKeyUser, JSON.stringify(formattedData));
+
+    return formattedData;
   }
 
   return (
     <RegisterContext.Provider
       value={{
         addRegister,
-        getRegisters
+        getRegisters,
+        deleteRegister
       }}
     >
       {children}

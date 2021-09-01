@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
+
+import { ActivityIndicator } from 'react-native';
 
 import { Header } from '../../components/Header';
 import { SearchBar } from '../../components/SearchBar';
@@ -18,6 +18,8 @@ import {
 } from './styles';
 import { Alert } from 'react-native';
 import { useAuth } from '../../hooks/auth';
+import { useRegister } from '../../hooks/register';
+import { useFocusEffect } from '@react-navigation/core';
 
 interface LoginDataProps {
   id: string;
@@ -33,19 +35,23 @@ export function Dashboard() {
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
   const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const { signOut } = useAuth();
-
-  const dataKey = '@savepass:logins';
+  const { signOut, user } = useAuth();
+  const { getRegisters, deleteRegister } = useRegister();
 
   async function loadData() {
-    
-    const response = await AsyncStorage.getItem(dataKey);
-
-    if (response) {
-      const currentData = JSON.parse(response);
-      setData(currentData);
-      setSearchListData(currentData);
+    try {
+      setLoading(true);
+      const response = await getRegisters(user.id) as LoginListDataProps;
+  
+      setData(response);
+      setSearchListData(response);
+    } catch (error) {
+      Alert.alert('Ops','Ocorreu um erro ao tentar carregar os dados');
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -91,15 +97,18 @@ export function Dashboard() {
   }
 
   async function deleteItem(id: string) {
-    const dataFormatted = data.filter(item => {
-      if (item.id !== id) {
-        return item;
-      }
-    })
+    try {
+      setLoading(true)
+      const data = await deleteRegister(user.id, id) as LoginDataProps[];
+      setData(data);
+      setSearchListData(data);
 
-    setData(dataFormatted);
-    setSearchListData(dataFormatted);
-    await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+    } catch (error) {
+      Alert.alert(error);
+    } finally {
+      setLoading(false);
+    }
+
   }
 
   async function handleSignOut() {
@@ -168,23 +177,25 @@ export function Dashboard() {
         </Metadata>
 
         
-
-        <LoginList
-          keyExtractor={(item) => item.id}
-          data={searchListData}
-          renderItem={({ item: loginData }) => {
-            return <LoginDataItem
-              data={{
-                id: loginData.id,
-                service_name: loginData.service_name,
-                email: loginData.email,
-                password: loginData.password,
-              }}
-              deleteItem={handleDeleteItem}
-              editing={editing}
-            />
-          }}
-        />
+        {
+          loading ? <ActivityIndicator /> 
+          : <LoginList
+            keyExtractor={(item) => item.id}
+            data={searchListData}
+            renderItem={({ item: loginData }) => {
+              return <LoginDataItem
+                data={{
+                  id: loginData.id,
+                  service_name: loginData.service_name,
+                  email: loginData.email,
+                  password: loginData.password,
+                }}
+                deleteItem={handleDeleteItem}
+                editing={editing}
+              />
+            }}
+          />
+        }
       </Container>
     </>
   )

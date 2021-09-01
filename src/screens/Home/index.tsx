@@ -19,6 +19,7 @@ import { useAuth } from "../../hooks/auth";
 import { Alert, Image, StatusBar } from "react-native";
 import { Input } from "../../components/Form/Input";
 import { Button } from "../../components/Form/Button";
+import { useTheme } from "styled-components";
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required("Email obrigatório!"),
@@ -31,6 +32,8 @@ interface FormData {
 }
 
 export function Home() {
+  const theme = useTheme();
+
   const {
     control,
     handleSubmit,
@@ -80,6 +83,7 @@ export function Home() {
           name="email"
           control={control}
           error={errors.email && errors.email.message}
+          color={theme.colors.primary_light}
         />
 
         <Input 
@@ -87,6 +91,7 @@ export function Home() {
           name="password"
           control={control}
           error={errors.password && errors.password.message}
+          color={theme.colors.primary_light}
           secureTextEntry
         />
 

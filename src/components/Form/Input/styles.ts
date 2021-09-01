@@ -4,14 +4,18 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import Feather from '@expo/vector-icons/Feather';
 import theme from '../../../global/styles/theme';
 
+interface LabelProps {
+  color?: string;
+}
+
 export const Container = styled.View`
   margin-bottom: ${RFValue(17)}px;
 `;
 
-export const Label = styled.Text`
+export const Label = styled.Text<LabelProps>`
   font-family: 'Rubik_400Regular';
   font-size: ${RFValue(15)}px;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme, color }) => !!color ? color : theme.colors.text};
   margin-bottom: 7px;
 `;
 

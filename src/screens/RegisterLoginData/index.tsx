@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationHelpersContext, useNavigation } from '@react-navigation/native';
 import { Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -15,6 +15,7 @@ import {
   Form
 } from './styles';
 import { useRegister } from '../../hooks/register';
+import { useAuth } from '../../hooks/auth';
 
 interface FormData {
   service_name: string;
@@ -29,10 +30,12 @@ const schema = Yup.object().shape({
 })
 
 export function RegisterLoginData() {
-  const { navigate } = useNavigation();
+  const { user } = useAuth();
+  const navigation = useNavigation();
   const {
     control,
     handleSubmit,
+    reset,
     formState: {
       errors
     }
@@ -44,9 +47,12 @@ export function RegisterLoginData() {
 
   async function handleRegister(formData: FormData) {
     try {
-      await addRegister(formData);
+      await addRegister(formData, user.id);
+
+      reset();
+      navigation.navigate('Dashboard');
     } catch (error) {
-      console.log(error);
+      Alert.alert('Erro: ', error);
     } 
   }
 

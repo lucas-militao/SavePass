@@ -17,6 +17,7 @@ interface Props extends TextInputProps {
   name: string;
   title: string;
   error: string;
+  color?: string;
 }
 
 export function Input({
@@ -25,13 +26,14 @@ export function Input({
   title,
   error,
   secureTextEntry,
+  color,
   ...rest
 }: Props) {
   const [passwordHidden, setPasswordHidden] = useState(true);
 
   return (
     <Container>
-      <Label>{title}</Label>
+      <Label color={color}>{title}</Label>
       {error && <Error>{error}</Error>}
       <Controller
         name={name}

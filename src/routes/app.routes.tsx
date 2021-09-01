@@ -21,7 +21,7 @@ export function AppRoutes() {
       }}
     >
       <Screen
-        name="Principal"
+        name="Dashboard"
         component={Dashboard}
         options={{
           tabBarIcon: (({ size, color }) => (
@@ -34,7 +34,7 @@ export function AppRoutes() {
         }}
       />
       <Screen
-        name="Registrar"
+        name="RegisterLoginData"
         component={RegisterLoginData}
         options={{
           tabBarIcon: (({ size, color }) => (
