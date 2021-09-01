@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, ReactNode, useContext } from "react";
+import uuid from 'react-native-uuid';
 
 interface RegisterProviderProps {
   children: ReactNode;
@@ -25,14 +26,18 @@ function RegisterProvider({
 
   async function addRegister(newRegister: RegisterProps) {
     const data = await AsyncStorage.getItem(dataKey);
-    const currentData = JSON.parse(data);
+    const currentData = data ? JSON.parse(data) : [];
+    const newData = {
+      id: String(uuid.v4()),
+      ...newRegister
+    }
 
-    const newData = [
+    const updatedData = [
       ...currentData,
-      newRegister
+      newData
     ];
 
-    await AsyncStorage.setItem(dataKey, JSON.stringify(newData));
+    await AsyncStorage.setItem(dataKey, JSON.stringify(updatedData));
   }
 
   async function getRegisters(){
@@ -60,4 +65,4 @@ function useRegister() {
   return context;
 }
 
-export { RegisterContext, useRegister }
+export { RegisterContext, useRegister, RegisterProvider }

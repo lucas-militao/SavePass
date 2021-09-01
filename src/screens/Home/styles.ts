@@ -1,14 +1,20 @@
 import { BorderlessButton } from "react-native-gesture-handler";
+import { RFPercentage } from "react-native-responsive-fontsize";
 
 import styled from "styled-components/native";
 
 export const Container = styled.View`
   flex: 1;
 
-  justify-content: center;
   padding: 16px;
+  justify-content: center;
+  align-items: center;
 
   background-color: ${({ theme }) => theme.colors.secondary};
+`;
+
+export const LogoContainer = styled.View`
+  margin-bottom: 50px;
 `;
 
 export const Form = styled.View`

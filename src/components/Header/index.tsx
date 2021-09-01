@@ -21,7 +21,7 @@ interface HeaderProps {
     name: string;
     avatar_url: string;
   },
-  handleSignOut: () => Promise<void>
+  handleSignOut?: () => Promise<void>
 }
 
 export function Header({ 

@@ -11,9 +11,9 @@ import {
 } from '@expo-google-fonts/rubik';
 
 import theme from './src/global/styles/theme';
-import { AuthProvider } from './src/hooks/auth';
 
 import { Routes } from './src/routes';
+import { Hooks } from './src/hooks';
 
 
 export default function App() {
@@ -34,9 +34,9 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      <AuthProvider>
+      <Hooks>
         <Routes />
-      </AuthProvider>
+      </Hooks>
     </ThemeProvider>
   );
 }

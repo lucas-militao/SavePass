@@ -1,21 +1,24 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Input } from "../../components/Form/Input";
 import * as Yup from "yup";
 import GoogleIconSvg from '../../assets/google-icon.svg'
+import Logo from '../../../assets/images/adaptive-icon.png';
 
 import {
   Container,
+  SocialLoginButtonContainer,
+  LogoContainer,
   Form,
   RegisterButtonContainer,
-  Title,
-  SocialLoginButtonContainer
+  Title
 } from './styles';
-import { Button } from "../../components/Form/Button";
+
 import { ButtonSocialLogin } from "../../components/Form/ButtonSocialLogin";
 import { useAuth } from "../../hooks/auth";
-import { Alert } from "react-native";
+import { Alert, Image, StatusBar } from "react-native";
+import { Input } from "../../components/Form/Input";
+import { Button } from "../../components/Form/Button";
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required("Email obrigatório!"),
@@ -55,7 +58,23 @@ export function Home() {
 
   return(
     <Container>
-      {/* <Form>
+      <StatusBar
+        barStyle="dark-content"
+        translucent
+      />
+      
+      <LogoContainer>
+        <Image
+          source={Logo}
+          style={{
+            tintColor: "white",
+            height: 100,
+            width: 100,
+          }}
+        />
+      </LogoContainer>
+
+      <Form>
         <Input 
           title="E-mail"
           name="email"
@@ -75,11 +94,12 @@ export function Home() {
           title="Login"
           onPress={handleSubmit(handleLogin)}
         />
-      </Form> */}
+      </Form>
 
-      {/* <RegisterButtonContainer>
+      <RegisterButtonContainer>
         <Title>Não possui conta?</Title>
-      </RegisterButtonContainer> */}
+      </RegisterButtonContainer>
+
 
       <SocialLoginButtonContainer>
         <ButtonSocialLogin
