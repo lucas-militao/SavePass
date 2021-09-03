@@ -69,17 +69,7 @@ export function Header({
           </AddButton>
         </>
       ) : (
-        <>
-          <BackButton onPress={goBack}>
-            <Icon
-              name="chevron-left"
-              color="#1967FB"
-              size={28}
-            />
-          </BackButton>
-
-          <Title>Cadastro de senha</Title>
-        </>
+        <Title>Cadastro de senha</Title>
       )}
     </Container>
   );

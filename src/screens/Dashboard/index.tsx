@@ -125,7 +125,6 @@ export function Dashboard() {
           text:"Não",
           style: "cancel"
         },
-        
       ]
     );
     
@@ -139,8 +138,8 @@ export function Dashboard() {
     <>
       <Header
         user={{
-          name: 'Rocketseat',
-          avatar_url: 'https://i.ibb.co/ZmFHZDM/rocketseat.jpg'
+          name: user.name,
+          avatar_url: user.picture
         }}
         handleSignOut={handleSignOut}
       />

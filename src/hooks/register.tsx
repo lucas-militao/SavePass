@@ -7,7 +7,6 @@ interface RegisterProviderProps {
 }
 
 interface RegisterProps {
-  id: string;
   service_name: string;
   email: string;
   password: string;
@@ -48,8 +47,7 @@ function RegisterProvider({
     const dataKeyUser = dataKey + `:${userId}`;
     const data = await AsyncStorage.getItem(dataKeyUser);
     const currentData = data!! ? JSON.parse(data) : [];
-    
-    console.log(currentData);
+
 
     return currentData;
   }
